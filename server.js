@@ -76,47 +76,23 @@ router.post('/signin', function (req, res) {
 router.route('/movies')
     .get(function(req, res) {
             console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            let o = getJSONObjectForMovieRequirement(req);
-            res.json({"status": 200, message: "GET movies", headers: o, query: "", env: ""});
-        }
-    )
+            res = res.status(200).send({"status": 200, message: "GET movies", headers: req.headers, query: req.body.query, env: process.env.UNIQUE_KEY})
+        })
 
     .post(function(req, res) {
             console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            let o = getJSONObjectForMovieRequirement(req);
-            res.json({"status": 200, message: "movie saved", headers: o, query: "", env: ""});
-        }
-    )
+            res = res.status(200).send({"status": 200, message: "movie saved", headers: req.headers, query: req.body.query, env: process.env.UNIQUE_KEY})
+        })
     .put(authJwtController.isAuthenticated, function(req, res) {
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            let o = getJSONObjectForMovieRequirement(req);
-            res.json({"status": 200, message: "movie updated", headers: o, query: "", env: ""});
-        }
-    )
+        console.log(req.body);
+        res = res.status(200).send({"status": 200, message: "movie updated", headers: req.headers, query: req.body.query, env: process.env.UNIQUE_KEY});
+        })
 
     .delete(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            let o = getJSONObjectForMovieRequirement(req);
-            res.json({"status": 200, message: "movie deleted", headers: o, query: "", env: ""});
+            res = res.status(200).send({"status": 200, message: "movie deleted", headers: req.headers, query: req.body.query, env: process.env.UNIQUE_KEY})
 
-        }
-    );
+        });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
